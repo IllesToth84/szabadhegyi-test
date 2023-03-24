@@ -5,7 +5,6 @@
       @click="
         toggleEvent();
         getRandomNum();
-        convertDateFrom();
       "
     >
       {{ showEvent ? 'Hide' : 'Show' }} Event
@@ -105,7 +104,6 @@ export default {
   align-items: center;
   height: 100vh;
   width: 100vw;
-
   .toggle-btn {
     padding: 10px 20px;
     color: $default-black;
@@ -123,7 +121,6 @@ export default {
   width: 60rem;
   background-color: $default-white;
   border-radius: $default-radius;
-
   .inner-card {
     width: 50rem;
     height: 25rem;
@@ -131,7 +128,6 @@ export default {
     border-radius: $default-radius;
     display: flex;
     flex-direction: column;
-
     .card-row {
       display: flex;
       align-items: center;
@@ -175,7 +171,6 @@ export default {
         display: flex;
         height: 100%;
         width: 100%;
-
         .talents-box {
           flex: 1;
           display: flex;
