@@ -5,11 +5,21 @@
       @click="
         toggleEvent();
         getRandomNum();
+        convertDateFrom();
       "
     >
       {{ showEvent ? 'Hide' : 'Show' }} Event
     </button>
-    <div class="overlay-card" v-if="showEvent && events && events.length">
+    <div
+      class="overlay-card"
+      v-if="showEvent && events && events.length"
+      v-anime="{
+        rotate: '1turn',
+        backgroundColor: '#FFF',
+        duration: 2000,
+        loop: false,
+      }"
+    >
       <div class="inner-card">
         <div
           class="card-row"
@@ -21,8 +31,9 @@
         </div>
         <div class="card-row">
           <h3>
-            {{ chosenEvent.from }} -
-            {{ chosenEvent.to }}
+            {{ convertDateFrom() }}
+            -
+            {{ convertDateTo() }}
           </h3>
         </div>
         <div
@@ -66,17 +77,34 @@ export default {
       var chosenNumber = Math.floor(Math.random() * this.events.length);
       this.chosenEvent = this.events[chosenNumber];
     },
+    convertDateFrom() {
+      const dateStr = this.chosenEvent.from;
+      const dateObj = new Date(dateStr);
+      const options = { month: 'long', day: 'numeric' };
+      const formattedDateFrom = dateObj.toLocaleDateString('en-US', options);
+
+      return formattedDateFrom;
+    },
+
+    convertDateTo() {
+      const dateStr = this.chosenEvent.to;
+      const dateObj = new Date(dateStr);
+      const options = { month: 'long', day: 'numeric' };
+      const formattedDateTo = dateObj.toLocaleDateString('en-US', options);
+
+      return formattedDateTo;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 .overlay-wrapper {
-  width: 120rem;
-  height: 59.375rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  width: 100vw;
 
   .toggle-btn {
     padding: 10px 20px;
@@ -88,6 +116,8 @@ export default {
   }
 }
 .overlay-card {
+  width: auto !important;
+  height: auto;
   padding: 4px;
   text-align: center;
   width: 60rem;
@@ -95,24 +125,29 @@ export default {
   border-radius: $default-radius;
 
   .inner-card {
+    width: 50rem;
+    height: 25rem;
     border: $border-thick solid $default-black;
     border-radius: $default-radius;
-    display: grid;
-    grid-template-rows: 2fr 1.5fr 2fr;
+    display: flex;
+    flex-direction: column;
 
     .card-row {
       display: flex;
       align-items: center;
       justify-content: center;
       &:nth-child(1) {
+        flex: 2;
         border-top-left-radius: $inner-radius;
         border-top-right-radius: $inner-radius;
       }
       &:nth-child(2) {
+        flex: 1;
         border-top: $border-thick solid $default-black;
         border-bottom: $border-thick solid $default-black;
       }
       &:nth-child(3) {
+        flex: 2;
         border-bottom-left-radius: $inner-radius;
         border-bottom-right-radius: $inner-radius;
       }
@@ -133,6 +168,9 @@ export default {
         font-weight: 400;
       }
 
+      h5 {
+        position: absolute;
+      }
       .talents-wrapper {
         display: flex;
         height: 100%;
